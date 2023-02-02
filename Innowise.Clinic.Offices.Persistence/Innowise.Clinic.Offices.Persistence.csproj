@@ -7,10 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
       <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Configuration\Innowise.Clinic.Offices.Configuration.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Dto\Innowise.Clinic.Offices.Dto.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence.Models\Innowise.Clinic.Offices.Persistence.Models.csproj" />
     </ItemGroup>
 

@@ -12,8 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Configuration\Innowise.Clinic.Offices.Configuration.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Constants\Innowise.Clinic.Offices.Constants.csproj" />
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Services\Innowise.Clinic.Offices.Services.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>

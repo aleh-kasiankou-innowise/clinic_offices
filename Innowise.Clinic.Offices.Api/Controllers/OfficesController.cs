@@ -1,6 +1,6 @@
 using Innowise.Clinic.Offices.Constants;
 using Innowise.Clinic.Offices.Dto;
-using Innowise.Clinic.Offices.Services.Interfaces;
+using Innowise.Clinic.Offices.Persistence.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innowise.Clinic.Offices.Api.Controllers;
@@ -10,45 +10,42 @@ namespace Innowise.Clinic.Offices.Api.Controllers;
 public class OfficesController : ControllerBase
 {
     private readonly IOfficeRepository _officesRepository;
-    
+
     public OfficesController(IOfficeRepository officeRepository, IOfficeRepository officesRepository)
     {
         _officesRepository = officesRepository;
     }
 
     [HttpGet]
-    public IActionResult GetListOfOffices()
+    public async Task<IActionResult> GetListOfOffices()
     {
-        return Ok(_officesRepository.GetOffices());
+        return Ok(await _officesRepository.GetOfficesAsync());
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetOffice([FromRoute] Guid id)
+    public async Task<IActionResult> GetOffice([FromRoute] Guid id)
     {
-        return Ok(_officesRepository.GetOffice(id));
+        return Ok(await _officesRepository.GetOfficeAsync(id));
     }
-    
+
     [HttpPost]
-    public IActionResult CreateOffice([FromBody] OfficeDto office)
+    public async Task<IActionResult> CreateOffice([FromBody] OfficeDto office)
     {
-        return Ok(_officesRepository.CreateOffice(office).ToString());
+        return Ok((await _officesRepository.CreateOfficeAsync(office)).ToString());
     }
-    
+
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto office)
+    public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto office)
     {
-        _officesRepository.UpdateOffice(id, office);
+        await _officesRepository.UpdateOfficeAsync(id, office);
         return Ok();
     }
-    
-    
+
+
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteOffice([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteOffice([FromRoute] Guid id)
     {
-        _officesRepository.DeleteOffice(id);
+        await _officesRepository.DeleteOfficeAsync(id);
         return NoContent();
     }
-    
-
-
 }
