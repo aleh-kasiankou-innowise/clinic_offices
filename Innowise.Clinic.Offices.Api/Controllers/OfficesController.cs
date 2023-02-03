@@ -42,7 +42,6 @@ public class OfficesController : ControllerBase
     /// <returns>The office with the specified ID.</returns>
     /// <response code="200">Success. The office has been found and returned.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
-    /// <example>35</example>
     [HttpGet("{id:guid}")]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OfficeModel))]
@@ -71,7 +70,7 @@ public class OfficesController : ControllerBase
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpPut("{id:guid}")]
     [Produces("application/json")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
     public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto office)
     {
