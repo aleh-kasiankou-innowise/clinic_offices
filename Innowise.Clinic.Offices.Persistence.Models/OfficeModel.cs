@@ -2,12 +2,28 @@
 
 namespace Innowise.Clinic.Offices.Persistence.Models;
 
+/// <summary>
+/// Represents an office registered in the system.
+/// </summary>
 public class OfficeModel
 {
+    /// <summary>
+    /// Office Id.
+    /// </summary>
     [BsonId]
     public Guid Id { get; set; }
-    public string RegistryPhone { get; set; } = null!;
+    
+    
+    /// <summary>Phone number in a text format.</summary>
+    /// <example>(555) 555-1234</example>>
+    public string RegistryPhone { get; set; }
+    
+    /// <summary>Office status.</summary>
+    /// <example>1</example>>
     public OfficeStatus OfficeStatus { get; set; }
-    public OfficeAddressModel OfficeAddress { get; set; } = null!;
+    /// <summary>
+    /// Office address.
+    /// </summary>
+    public OfficeAddressModel OfficeAddress { get; set; }
     
 }
