@@ -9,15 +9,13 @@ namespace Innowise.Clinic.Offices.Persistence;
 
 public class OfficeRepository : IOfficeRepository
 {
-    private readonly MongoClient _client;
-    private readonly IMongoDatabase _database;
     private readonly IMongoCollection<OfficeModel> _offices;
 
     public OfficeRepository(IOptions<MongoDbConfiguration> dbConfiguration)
     {
-        _client = new MongoClient(dbConfiguration.Value.ConnectionString);
-        _database = _client.GetDatabase(dbConfiguration.Value.Database);
-        _offices = _database.GetCollection<OfficeModel>(dbConfiguration.Value.Collection);
+        var client = new MongoClient(dbConfiguration.Value.ConnectionString);
+        var database = client.GetDatabase(dbConfiguration.Value.Database);
+        _offices = database.GetCollection<OfficeModel>(dbConfiguration.Value.Collection);
     }
 
 
@@ -43,12 +41,36 @@ public class OfficeRepository : IOfficeRepository
 
     public Guid CreateOffice(OfficeDto officeDto)
     {
-        throw new NotImplementedException();
+        var newOffice = new OfficeModel
+        {
+            OfficeStatus = officeDto.OfficeStatus,
+            OfficeAddress = officeDto.OfficeAddress,
+            RegistryPhone = officeDto.RegistryPhone,
+            Image = officeDto.Image
+        };
+
+
+        _offices.InsertOne(newOffice);
+
+
+        return newOffice.Id;
     }
 
     public async Task<Guid> CreateOfficeAsync(OfficeDto officeDto)
     {
-        throw new NotImplementedException();
+        var newOffice = new OfficeModel
+        {
+            OfficeStatus = officeDto.OfficeStatus,
+            OfficeAddress = officeDto.OfficeAddress,
+            RegistryPhone = officeDto.RegistryPhone,
+            Image = officeDto.Image
+        };
+
+
+        await _offices.InsertOneAsync(newOffice);
+
+
+        return newOffice.Id;
     }
 
     public void UpdateOffice(Guid id, OfficeDto officeDto)

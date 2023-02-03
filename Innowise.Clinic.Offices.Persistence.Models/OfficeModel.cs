@@ -25,5 +25,11 @@ public class OfficeModel
     /// Office address.
     /// </summary>
     public OfficeAddressModel OfficeAddress { get; set; }
+
+    /// <summary>
+    /// Office photo in a binary format.
+    /// </summary>
+    /// <example>000000010010010010000000011110000000</example>
+    public Byte[] Image { get; set; }
     
 }
