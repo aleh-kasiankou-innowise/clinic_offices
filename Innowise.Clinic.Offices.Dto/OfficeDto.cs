@@ -9,7 +9,7 @@ namespace Innowise.Clinic.Offices.Dto;
 public class OfficeDto
 {
     /// <summary>Phone number in a text format.</summary>
-    /// <example>(555) 555-1234</example>>
+    /// <example>(555) 555-1234</example>
     [Required]
     public string RegistryPhone { get; set; }
 

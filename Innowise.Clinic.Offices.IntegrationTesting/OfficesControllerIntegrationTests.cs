@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 using Innowise.Clinic.Offices.Constants;
 using Innowise.Clinic.Offices.Dto;
@@ -87,5 +90,43 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         Assert.True(response.IsSuccessStatusCode);
         Assert.NotNull(retrievedCollection);
         Assert.Empty(retrievedCollection);
+    }
+
+    [Fact]
+    public async Task TestNewValidOfficeCreated_Ok()
+    {
+        // Arrange
+
+        var office = new OfficeDto()
+        {
+            OfficeStatus = OfficeStatus.Active,
+            OfficeAddress = new OfficeAddressModel()
+            {
+                City = "City",
+                HouseNumber = "HouseNumber",
+                Street = "Street",
+                OfficeNumber = "OfficeNumber"
+            },
+            RegistryPhone = "2564892",
+            Image = Encoding.UTF8.GetBytes("this is an image converted to bytes")
+        };
+
+        // Act
+
+        var response = await _httpClient.PostAsJsonAsync(ControllerRoutes.OfficesControllerRoute, office);
+        var generatedObjectId = Guid.Parse(await response.Content.ReadAsStringAsync());
+
+        // Assert
+
+        Assert.True(response.IsSuccessStatusCode);
+        Assert.NotEqual(Guid.Empty, generatedObjectId);
+        var registeredOffices = (await _factory.UseDb(async x => await x.GetOfficesAsync())).ToList();
+
+        Assert.Contains(registeredOffices, x => x.Id == generatedObjectId && x.OfficeStatus == office.OfficeStatus &&
+                                                x.OfficeAddress.OfficeNumber == office.OfficeAddress.OfficeNumber &&
+                                                x.OfficeAddress.HouseNumber == office.OfficeAddress.HouseNumber &&
+                                                x.OfficeAddress.City == office.OfficeAddress.City &&
+                                                x.OfficeAddress.Street == office.OfficeAddress.Street &&
+                                                x.RegistryPhone == office.RegistryPhone && x.Image.SequenceEqual(office.Image));
     }
 }
