@@ -31,12 +31,14 @@ public class OfficeRepository : IOfficeRepository
 
     public OfficeModel GetOffice(Guid id)
     {
-        throw new NotImplementedException();
+        return _offices.Find(Builders<OfficeModel>.Filter.Eq(x => x.Id, id))
+            .Single();
     }
 
     public async Task<OfficeModel> GetOfficeAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await (await _offices.FindAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, id)))
+            .SingleAsync();
     }
 
     public Guid CreateOffice(OfficeDto officeDto)
