@@ -85,11 +85,11 @@ public class OfficeRepository : IOfficeRepository
 
     public void DeleteOffice(Guid id)
     {
-        throw new NotImplementedException();
+        _offices.DeleteOne(Builders<OfficeModel>.Filter.Eq(x => x.Id, id));
     }
 
     public async Task DeleteOfficeAsync(Guid id)
     {
-        throw new NotImplementedException();
+        await _offices.DeleteOneAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, id));
     }
 }
