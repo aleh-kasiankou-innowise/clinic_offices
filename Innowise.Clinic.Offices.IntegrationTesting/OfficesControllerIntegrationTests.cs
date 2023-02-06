@@ -122,11 +122,51 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         Assert.NotEqual(Guid.Empty, generatedObjectId);
         var registeredOffices = (await _factory.UseDb(async x => await x.GetOfficesAsync())).ToList();
 
-        Assert.Contains(registeredOffices, x => x.Id == generatedObjectId && x.OfficeStatus == office.OfficeStatus &&
-                                                x.OfficeAddress.OfficeNumber == office.OfficeAddress.OfficeNumber &&
-                                                x.OfficeAddress.HouseNumber == office.OfficeAddress.HouseNumber &&
-                                                x.OfficeAddress.City == office.OfficeAddress.City &&
-                                                x.OfficeAddress.Street == office.OfficeAddress.Street &&
-                                                x.RegistryPhone == office.RegistryPhone && x.Image.SequenceEqual(office.Image));
+        Assert.Contains(registeredOffices, x => OfficeModelEqualsOfficeDto(x, office, generatedObjectId));
+    }
+
+    [Fact]
+    public async Task TestExistingOfficeDetailsReturned_Ok()
+    {
+        // Arrange
+
+        var office = new OfficeDto()
+        {
+            OfficeStatus = OfficeStatus.Active,
+            OfficeAddress = new OfficeAddressModel()
+            {
+                City = "City",
+                HouseNumber = "HouseNumber",
+                Street = "Street",
+                OfficeNumber = "OfficeNumber"
+            },
+            RegistryPhone = "2564892",
+            Image = Encoding.UTF8.GetBytes("this is an image converted to bytes")
+        };
+
+        var createdOfficeId = await _factory.UseDb(x => x.CreateOfficeAsync(office));
+
+        // Act
+
+        var response = await _httpClient.GetAsync(ControllerRoutes.OfficesControllerRoute + $"/{createdOfficeId}");
+        var createdOffice =await response.Content.ReadFromJsonAsync<OfficeModel>();
+
+        // Assert
+        
+        Assert.True(response.IsSuccessStatusCode);
+        Assert.NotNull(createdOffice);
+        Assert.True(OfficeModelEqualsOfficeDto(createdOffice, office, createdOfficeId));
+    }
+
+
+    private bool OfficeModelEqualsOfficeDto(OfficeModel officeModel, OfficeDto officeDtoToCompare, Guid createdObjId)
+    {
+        return officeModel.Id == createdObjId && officeModel.OfficeStatus == officeDtoToCompare.OfficeStatus &&
+               officeModel.OfficeAddress.OfficeNumber == officeDtoToCompare.OfficeAddress.OfficeNumber &&
+               officeModel.OfficeAddress.HouseNumber == officeDtoToCompare.OfficeAddress.HouseNumber &&
+               officeModel.OfficeAddress.City == officeDtoToCompare.OfficeAddress.City &&
+               officeModel.OfficeAddress.Street == officeDtoToCompare.OfficeAddress.Street &&
+               officeModel.RegistryPhone == officeDtoToCompare.RegistryPhone &&
+               officeModel.Image.SequenceEqual(officeDtoToCompare.Image);
     }
 }
