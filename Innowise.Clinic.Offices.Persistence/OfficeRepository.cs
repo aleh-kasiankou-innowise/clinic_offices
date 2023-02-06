@@ -77,12 +77,30 @@ public class OfficeRepository : IOfficeRepository
 
     public void UpdateOffice(Guid id, OfficeDto officeDto)
     {
-        throw new NotImplementedException();
+        var updatedOffice = new OfficeModel
+        {
+            OfficeStatus = officeDto.OfficeStatus,
+            OfficeAddress = officeDto.OfficeAddress,
+            RegistryPhone = officeDto.RegistryPhone,
+            Image = officeDto.Image
+        };
+
+        _offices.ReplaceOne(Builders<OfficeModel>.Filter.Eq(x => x.Id, id), updatedOffice);
+
     }
 
     public async Task UpdateOfficeAsync(Guid id, OfficeDto officeDto)
     {
-        throw new NotImplementedException();
+        var updatedOffice = new OfficeModel
+        {
+            Id = id,
+            OfficeStatus = officeDto.OfficeStatus,
+            OfficeAddress = officeDto.OfficeAddress,
+            RegistryPhone = officeDto.RegistryPhone,
+            Image = officeDto.Image
+        };
+
+        await _offices.ReplaceOneAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, id), updatedOffice);
     }
 
     public void DeleteOffice(Guid id)
