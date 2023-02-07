@@ -7,8 +7,8 @@ on:
       ["main", "testing", "devops/github-actions-support"]
 
 env:
-  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SLN_PATH: "./Innowise.Clinic.Offices.sln"
   DOCKER_COMPOSE_FILE: "./docker-compose/docker-compose.yml"
 
@@ -54,5 +54,5 @@ jobs:
             docker push "$DOCKER_HUB_USERNAME/clinic/$service:$IMAGE_TAG"
           done
         env:
-          DOCKER_USERNAME: ${DOCKER_HUB_USERNAME}
-          DOCKER_PASSWORD: ${DOCKER_HUB_PASSWORD}
+          DOCKER_USERNAME: ${DOCKER_USERNAME}
+          DOCKER_PASSWORD: ${DOCKER_PASSWORD}
