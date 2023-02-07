@@ -9,6 +9,8 @@ on:
 env:
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
   DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  SLN_PATH: "./Innowise.Clinic.Offices.sln"
+  DOCKER_COMPOSE_FILE: "./docker-compose/docker-compose.yml"
 
 jobs:
   test:
@@ -41,9 +43,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker images
-        run: |
+        run:
+         |
           set -e
-          docker-compose build
+          docker-compose -f DOCKER_COMPOSE_FILE build
           for service in $(docker-compose config --services); do
             IMAGE_TAG=${GITHUB_SHA}
             echo "Pushing $service with tag $IMAGE_TAG..."
