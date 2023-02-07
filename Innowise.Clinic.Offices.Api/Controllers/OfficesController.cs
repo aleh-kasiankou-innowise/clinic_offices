@@ -12,6 +12,7 @@ namespace Innowise.Clinic.Offices.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route(ControllerRoutes.OfficesControllerRoute)]
+[Produces("application/json")]
 public class OfficesController : ControllerBase
 {
     private readonly IOfficeRepository _officesRepository;
@@ -29,7 +30,6 @@ public class OfficesController : ControllerBase
     /// <returns>The list of offices with all the office details.</returns>
     /// <response code="200">Success. Returns the list of offices.</response>
     [HttpGet]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OfficeModel>))]
     public async Task<IActionResult> GetListOfOffices()
     {
@@ -42,7 +42,6 @@ public class OfficesController : ControllerBase
     /// <response code="200">Success. The office has been found and returned.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpGet("{id:guid}")]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OfficeModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
     public async Task<IActionResult> GetOffice([FromRoute] Guid id)
@@ -75,7 +74,6 @@ public class OfficesController : ControllerBase
     /// <response code="200">Success. The office update succeeded.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpPut("{id:guid}")]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
     public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto officeUpdateData)
@@ -96,7 +94,6 @@ public class OfficesController : ControllerBase
     /// <response code="204">Success. The office has been deleted.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpDelete("{id:guid}")]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteOffice([FromRoute] Guid id)

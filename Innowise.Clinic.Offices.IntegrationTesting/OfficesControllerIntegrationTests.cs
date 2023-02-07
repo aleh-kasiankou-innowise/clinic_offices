@@ -114,7 +114,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         // Act
 
         var response = await _httpClient.PostAsJsonAsync(ControllerRoutes.OfficesControllerRoute, office);
-        var generatedObjectId = Guid.Parse(await response.Content.ReadAsStringAsync());
+        var generatedObjectId = await response.Content.ReadFromJsonAsync<Guid>();
 
         // Assert
 
@@ -149,10 +149,10 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         // Act
 
         var response = await _httpClient.GetAsync(ControllerRoutes.OfficesControllerRoute + $"/{createdOfficeId}");
-        var createdOffice =await response.Content.ReadFromJsonAsync<OfficeModel>();
+        var createdOffice = await response.Content.ReadFromJsonAsync<OfficeModel>();
 
         // Assert
-        
+
         Assert.True(response.IsSuccessStatusCode);
         Assert.NotNull(createdOffice);
         Assert.True(OfficeModelEqualsOfficeDto(createdOffice, office, createdOfficeId));
