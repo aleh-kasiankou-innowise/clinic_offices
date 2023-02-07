@@ -29,16 +29,16 @@ public class OfficeRepository : IOfficeRepository
         return await (await _offices.FindAsync(Builders<OfficeModel>.Filter.Empty)).ToListAsync();
     }
 
-    public OfficeModel GetOffice(Guid id)
+    public OfficeModel? GetOffice(Guid id)
     {
         return _offices.Find(Builders<OfficeModel>.Filter.Eq(x => x.Id, id))
-            .Single();
+            .SingleOrDefault();
     }
 
-    public async Task<OfficeModel> GetOfficeAsync(Guid id)
+    public async Task<OfficeModel?> GetOfficeAsync(Guid id)
     {
         return await (await _offices.FindAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, id)))
-            .SingleAsync();
+            .SingleOrDefaultAsync();
     }
 
     public Guid CreateOffice(OfficeDto officeDto)
@@ -75,41 +75,41 @@ public class OfficeRepository : IOfficeRepository
         return newOffice.Id;
     }
 
-    public void UpdateOffice(Guid id, OfficeDto officeDto)
+    public void UpdateOffice(OfficeModel currentOfficeModel, OfficeDto officeUpdateDto)
     {
         var updatedOffice = new OfficeModel
         {
-            OfficeStatus = officeDto.OfficeStatus,
-            OfficeAddress = officeDto.OfficeAddress,
-            RegistryPhone = officeDto.RegistryPhone,
-            Image = officeDto.Image
+            OfficeStatus = officeUpdateDto.OfficeStatus,
+            OfficeAddress = officeUpdateDto.OfficeAddress,
+            RegistryPhone = officeUpdateDto.RegistryPhone,
+            Image = officeUpdateDto.Image
         };
 
-        _offices.ReplaceOne(Builders<OfficeModel>.Filter.Eq(x => x.Id, id), updatedOffice);
-
+        _offices.ReplaceOne(Builders<OfficeModel>.Filter.Eq(x => x.Id, currentOfficeModel.Id), updatedOffice);
     }
 
-    public async Task UpdateOfficeAsync(Guid id, OfficeDto officeDto)
+    public async Task UpdateOfficeAsync(OfficeModel currentOfficeModel, OfficeDto officeUpdateDto)
     {
         var updatedOffice = new OfficeModel
         {
-            Id = id,
-            OfficeStatus = officeDto.OfficeStatus,
-            OfficeAddress = officeDto.OfficeAddress,
-            RegistryPhone = officeDto.RegistryPhone,
-            Image = officeDto.Image
+            Id = currentOfficeModel.Id,
+            OfficeStatus = officeUpdateDto.OfficeStatus,
+            OfficeAddress = officeUpdateDto.OfficeAddress,
+            RegistryPhone = officeUpdateDto.RegistryPhone,
+            Image = officeUpdateDto.Image
         };
 
-        await _offices.ReplaceOneAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, id), updatedOffice);
+        await _offices.ReplaceOneAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, currentOfficeModel.Id),
+            updatedOffice);
     }
 
-    public void DeleteOffice(Guid id)
+    public void DeleteOffice(OfficeModel officeToDelete)
     {
-        _offices.DeleteOne(Builders<OfficeModel>.Filter.Eq(x => x.Id, id));
+        _offices.DeleteOne(Builders<OfficeModel>.Filter.Eq(x => x.Id, officeToDelete.Id));
     }
 
-    public async Task DeleteOfficeAsync(Guid id)
+    public async Task DeleteOfficeAsync(OfficeModel officeToDelete)
     {
-        await _offices.DeleteOneAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, id));
+        await _offices.DeleteOneAsync(Builders<OfficeModel>.Filter.Eq(x => x.Id, officeToDelete.Id));
     }
 }
