@@ -47,7 +47,7 @@ jobs:
          |
           set -e
           docker-compose -f $DOCKER_COMPOSE_FILE build
-          for service in $(docker-compose config --services); do
+          for service in $(docker-compose -f $DOCKER_COMPOSE_FILE config --services); do
             IMAGE_TAG=${GITHUB_SHA}
             echo "Pushing $service with tag $IMAGE_TAG..."
             docker tag $service:latest "$DOCKER_HUB_USERNAME/clinic/$service:$IMAGE_TAG"
