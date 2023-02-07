@@ -8,20 +8,20 @@ public interface IOfficeRepository
     IEnumerable<OfficeModel> GetOffices();
 
     Task<IEnumerable<OfficeModel>> GetOfficesAsync();
-    OfficeModel GetOffice(Guid id);
-    Task<OfficeModel> GetOfficeAsync(Guid id);
+    OfficeModel? GetOffice(Guid id);
+    Task<OfficeModel?> GetOfficeAsync(Guid id);
 
     Guid CreateOffice(OfficeDto officeDto);
 
     Task<Guid> CreateOfficeAsync(OfficeDto officeDto);
 
 
-    void UpdateOffice(Guid id, OfficeDto officeDto);
+    void UpdateOffice(OfficeModel currentOfficeModel, OfficeDto officeUpdateDto);
 
-    Task UpdateOfficeAsync(Guid id, OfficeDto officeDto);
+    Task UpdateOfficeAsync(OfficeModel currentOfficeModel, OfficeDto officeUpdateDto);
 
 
-    void DeleteOffice(Guid id);
+    void DeleteOffice(OfficeModel officeToDelete);
 
-    Task DeleteOfficeAsync(Guid id);
+    Task DeleteOfficeAsync(OfficeModel officeToDelete);
 }
