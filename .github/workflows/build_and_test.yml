@@ -10,7 +10,7 @@ env:
   SLN_PATH: "./Innowise.Clinic.Offices.sln"
 
 jobs:
-  build:
+  build_and_test:
 
     runs-on: ubuntu-latest
 
