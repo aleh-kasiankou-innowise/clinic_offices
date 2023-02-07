@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      ["main", "testing", "devops/github-actions-support"]
+      [ "main", "testing", "devops/github-actions-support" ]
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -44,11 +44,8 @@ jobs:
 
       - name: Build and push Docker images
         run:
-         |
+          |
           set -e
           docker-compose -f $DOCKER_COMPOSE_FILE build
-          for service in $(docker-compose -f $DOCKER_COMPOSE_FILE config --services); do
-            echo "Pushing $service with tag latest"
-            docker tag $service:latest "$DOCKER_USERNAME/clinic/$service:latest"
-            docker push "$DOCKER_USERNAME/$service:latest"
-          done
+          docker tag docker-compose_office:latest "$DOCKER_USERNAME/docker-compose_office:latest"
+          docker push "$DOCKER_USERNAME/docker-compose_office"
