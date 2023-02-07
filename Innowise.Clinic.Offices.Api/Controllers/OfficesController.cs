@@ -12,6 +12,7 @@ namespace Innowise.Clinic.Offices.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route(ControllerRoutes.OfficesControllerRoute)]
+[Produces("application/json")]
 public class OfficesController : ControllerBase
 {
     private readonly IOfficeRepository _officesRepository;
@@ -29,9 +30,7 @@ public class OfficesController : ControllerBase
     /// <returns>The list of offices with all the office details.</returns>
     /// <response code="200">Success. Returns the list of offices.</response>
     [HttpGet]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OfficeModel>))]
-    
     public async Task<IActionResult> GetListOfOffices()
     {
         return Ok(await _officesRepository.GetOfficesAsync());
@@ -43,12 +42,18 @@ public class OfficesController : ControllerBase
     /// <response code="200">Success. The office has been found and returned.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpGet("{id:guid}")]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OfficeModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
     public async Task<IActionResult> GetOffice([FromRoute] Guid id)
     {
-        return Ok(await _officesRepository.GetOfficeAsync(id));
+        var office = await _officesRepository.GetOfficeAsync(id);
+
+        if (office != null)
+        {
+            return Ok(office);
+        }
+
+        return NotFound();
     }
 
     /// <summary>Creates the office with the provided data.</summary>
@@ -64,18 +69,23 @@ public class OfficesController : ControllerBase
 
     /// <summary>Updates the office data.</summary>
     /// <param name="id">The office ID. Ids are represented in the GUID (UUID) format.</param>
-    /// <param name="office"> The updated office-related data. Should be sent in a request body.</param>
+    /// <param name="officeUpdateData"> The updated office-related data. Should be sent in a request body.</param>
     /// <returns>Successful status code (200) if update succeeds.</returns>
     /// <response code="200">Success. The office update succeeded.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpPut("{id:guid}")]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
-    public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto office)
+    public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto officeUpdateData)
     {
-        await _officesRepository.UpdateOfficeAsync(id, office);
-        return Ok();
+        var office = await _officesRepository.GetOfficeAsync(id);
+        if (office != null)
+        {
+            await _officesRepository.UpdateOfficeAsync(office, officeUpdateData);
+            return Ok(office);
+        }
+
+        return NotFound();
     }
 
     /// <summary>Deletes the office from the system.</summary>
@@ -84,12 +94,17 @@ public class OfficesController : ControllerBase
     /// <response code="204">Success. The office has been deleted.</response>
     /// <response code="404">Failure. The office with the provided id is not found.</response>
     [HttpDelete("{id:guid}")]
-    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteOffice([FromRoute] Guid id)
     {
-        await _officesRepository.DeleteOfficeAsync(id);
-        return NoContent();
+        var office = await _officesRepository.GetOfficeAsync(id);
+        if (office != null)
+        {
+            await _officesRepository.DeleteOfficeAsync(office);
+            return NoContent();
+        }
+
+        return NotFound();
     }
 }
