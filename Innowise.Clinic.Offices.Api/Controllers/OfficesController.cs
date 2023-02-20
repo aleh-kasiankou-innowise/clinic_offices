@@ -11,7 +11,7 @@ namespace Innowise.Clinic.Offices.Api.Controllers;
 /// It provides endpoints to create, get, update and delete clinic offices.
 /// </summary>
 [ApiController]
-[Route(ControllerRoutes.OfficesControllerRoute)]
+[Route("[controller]")]
 [Produces("application/json")]
 public class OfficesController : ControllerBase
 {
