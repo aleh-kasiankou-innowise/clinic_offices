@@ -2,6 +2,7 @@ using Innowise.Clinic.Offices.Constants;
 using Innowise.Clinic.Offices.Dto;
 using Innowise.Clinic.Offices.Persistence.Interfaces;
 using Innowise.Clinic.Offices.Persistence.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innowise.Clinic.Offices.Api.Controllers;
@@ -17,9 +18,7 @@ public class OfficesController : ControllerBase
 {
     private readonly IOfficeRepository _officesRepository;
 
-#pragma warning disable CS1591
     public OfficesController(IOfficeRepository officeRepository, IOfficeRepository officesRepository)
-#pragma warning restore CS1591
     {
         _officesRepository = officesRepository;
     }
@@ -62,6 +61,7 @@ public class OfficesController : ControllerBase
     ///<response code="200">Success. Returns the id of the created office in the GUID (UUID) format.</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> CreateOffice([FromBody] OfficeDto office)
     {
         return Ok((await _officesRepository.CreateOfficeAsync(office)).ToString());
@@ -76,6 +76,7 @@ public class OfficesController : ControllerBase
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto officeUpdateData)
     {
         var office = await _officesRepository.GetOfficeAsync(id);
@@ -96,6 +97,7 @@ public class OfficesController : ControllerBase
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> DeleteOffice([FromRoute] Guid id)
     {
         var office = await _officesRepository.GetOfficeAsync(id);
