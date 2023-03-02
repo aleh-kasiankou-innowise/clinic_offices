@@ -1,4 +1,4 @@
-using Innowise.Clinic.Offices.Persistence.Interfaces;
+using Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innowise.Clinic.Offices.Api.Controllers;

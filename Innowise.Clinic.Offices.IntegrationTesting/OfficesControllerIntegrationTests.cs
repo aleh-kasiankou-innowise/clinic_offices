@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using Innowise.Clinic.Offices.Constants;
+using Innowise.Clinic.Offices.Shared;
 using Innowise.Clinic.Offices.Dto;
+using Innowise.Clinic.Offices.Persistence.Enums;
 using Innowise.Clinic.Offices.Persistence.Models;
+using Innowise.Clinic.Offices.Shared.Constants;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -36,10 +38,10 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         var office = new OfficeDto()
         {
             OfficeStatus = OfficeStatus.Active,
-            OfficeAddress = new OfficeAddressModel()
+            OfficeAddress = new OfficeAddress()
             {
                 City = "City",
-                HouseNumber = "HouseNumber",
+                BuildingNumber = "HouseNumber",
                 Street = "Street",
                 OfficeNumber = "OfficeNumber"
             },
@@ -61,7 +63,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         Assert.Contains(retrievedCollection,
             x => x.Id == createdObjId && x.OfficeStatus == office.OfficeStatus &&
                  x.OfficeAddress.OfficeNumber == office.OfficeAddress.OfficeNumber &&
-                 x.OfficeAddress.HouseNumber == office.OfficeAddress.HouseNumber &&
+                 x.OfficeAddress.BuildingNumber == office.OfficeAddress.BuildingNumber &&
                  x.OfficeAddress.City == office.OfficeAddress.City &&
                  x.OfficeAddress.Street == office.OfficeAddress.Street && x.RegistryPhone == office.RegistryPhone);
     }
@@ -100,10 +102,10 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         var office = new OfficeDto()
         {
             OfficeStatus = OfficeStatus.Active,
-            OfficeAddress = new OfficeAddressModel()
+            OfficeAddress = new OfficeAddress()
             {
                 City = "City",
-                HouseNumber = "HouseNumber",
+                BuildingNumber = "HouseNumber",
                 Street = "Street",
                 OfficeNumber = "OfficeNumber"
             },
@@ -133,10 +135,10 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
         var office = new OfficeDto()
         {
             OfficeStatus = OfficeStatus.Active,
-            OfficeAddress = new OfficeAddressModel()
+            OfficeAddress = new OfficeAddress()
             {
                 City = "City",
-                HouseNumber = "HouseNumber",
+                BuildingNumber = "HouseNumber",
                 Street = "Street",
                 OfficeNumber = "OfficeNumber"
             },
@@ -163,7 +165,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
     {
         return officeModel.Id == createdObjId && officeModel.OfficeStatus == officeDtoToCompare.OfficeStatus &&
                officeModel.OfficeAddress.OfficeNumber == officeDtoToCompare.OfficeAddress.OfficeNumber &&
-               officeModel.OfficeAddress.HouseNumber == officeDtoToCompare.OfficeAddress.HouseNumber &&
+               officeModel.OfficeAddress.BuildingNumber == officeDtoToCompare.OfficeAddress.BuildingNumber &&
                officeModel.OfficeAddress.City == officeDtoToCompare.OfficeAddress.City &&
                officeModel.OfficeAddress.Street == officeDtoToCompare.OfficeAddress.Street &&
                officeModel.RegistryPhone == officeDtoToCompare.RegistryPhone &&

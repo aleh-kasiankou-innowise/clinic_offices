@@ -4,15 +4,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Api
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Persistence", "Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj", "{7B78DF44-A321-40E3-BEBA-7111109FADB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Persistence.Models", "Innowise.Clinic.Offices.Persistence.Models\Innowise.Clinic.Offices.Persistence.Models.csproj", "{F9C4B9CD-7174-478E-92B8-5EE284F546D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Dto", "Innowise.Clinic.Offices.Dto\Innowise.Clinic.Offices.Dto.csproj", "{E969A797-1030-493E-AF4C-5355EF82672C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.IntegrationTesting", "Innowise.Clinic.Offices.IntegrationTesting\Innowise.Clinic.Offices.IntegrationTesting.csproj", "{5DB1D849-0693-48F1-8A6F-AF075E7B0907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Constants", "Innowise.Clinic.Offices.Constants\Innowise.Clinic.Offices.Constants.csproj", "{F3E25E8C-1364-4AEE-961B-C64B268A9F5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Shared", "Innowise.Clinic.Offices.Shared\Innowise.Clinic.Offices.Shared.csproj", "{F3E25E8C-1364-4AEE-961B-C64B268A9F5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Configuration", "Innowise.Clinic.Offices.Configuration\Innowise.Clinic.Offices.Configuration.csproj", "{95A409E3-EC09-49D9-82B9-021CFE1BA430}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innowise.Clinic.Offices.Services", "Innowise.Clinic.Offices.Services\Innowise.Clinic.Offices.Services.csproj", "{F3CFD09E-E795-4048-8212-910D342D4C7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +28,6 @@ Global
 		{7B78DF44-A321-40E3-BEBA-7111109FADB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B78DF44-A321-40E3-BEBA-7111109FADB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B78DF44-A321-40E3-BEBA-7111109FADB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9C4B9CD-7174-478E-92B8-5EE284F546D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9C4B9CD-7174-478E-92B8-5EE284F546D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9C4B9CD-7174-478E-92B8-5EE284F546D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9C4B9CD-7174-478E-92B8-5EE284F546D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E969A797-1030-493E-AF4C-5355EF82672C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E969A797-1030-493E-AF4C-5355EF82672C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E969A797-1030-493E-AF4C-5355EF82672C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,5 +44,9 @@ Global
 		{95A409E3-EC09-49D9-82B9-021CFE1BA430}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95A409E3-EC09-49D9-82B9-021CFE1BA430}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95A409E3-EC09-49D9-82B9-021CFE1BA430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3CFD09E-E795-4048-8212-910D342D4C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3CFD09E-E795-4048-8212-910D342D4C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3CFD09E-E795-4048-8212-910D342D4C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3CFD09E-E795-4048-8212-910D342D4C7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

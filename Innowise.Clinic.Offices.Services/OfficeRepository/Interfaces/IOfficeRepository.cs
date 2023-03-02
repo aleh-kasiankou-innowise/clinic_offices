@@ -1,7 +1,7 @@
 ﻿using Innowise.Clinic.Offices.Dto;
 using Innowise.Clinic.Offices.Persistence.Models;
 
-namespace Innowise.Clinic.Offices.Persistence.Interfaces;
+namespace Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
 
 public interface IOfficeRepository
 {

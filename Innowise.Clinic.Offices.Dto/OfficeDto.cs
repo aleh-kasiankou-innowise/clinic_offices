@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Innowise.Clinic.Offices.Persistence.Models;
+using System.Diagnostics.CodeAnalysis;
+using Innowise.Clinic.Offices.Persistence.Enums;
 
 namespace Innowise.Clinic.Offices.Dto;
 
@@ -21,7 +22,8 @@ public class OfficeDto
     /// <summary>
     /// Office address.
     /// </summary>
-    public OfficeAddressModel OfficeAddress { get; set; }
+    [Required]
+    public OfficeAddress OfficeAddress { get; set; }
 
     /// <summary>
     /// Office photo in a binary format.

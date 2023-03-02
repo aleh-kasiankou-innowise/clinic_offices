@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using Innowise.Clinic.Offices.Dto;
+using Innowise.Clinic.Offices.Persistence.Enums;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Innowise.Clinic.Offices.Persistence.Models;
 
@@ -24,12 +26,11 @@ public class OfficeModel
     /// <summary>
     /// Office address.
     /// </summary>
-    public OfficeAddressModel OfficeAddress { get; set; }
+    public OfficeAddress OfficeAddress { get; set; }
 
     /// <summary>
     /// Office photo in a binary format.
     /// </summary>
     /// <example>000000010010010010000000011110000000</example>
     public Byte[] Image { get; set; }
-    
 }

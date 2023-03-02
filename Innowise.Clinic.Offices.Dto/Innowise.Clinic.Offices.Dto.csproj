@@ -11,8 +11,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+
     <ItemGroup>
-        <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence.Models\Innowise.Clinic.Offices.Persistence.Models.csproj"/>
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Shared\Innowise.Clinic.Offices.Shared.csproj" />
     </ItemGroup>
 
 </Project>

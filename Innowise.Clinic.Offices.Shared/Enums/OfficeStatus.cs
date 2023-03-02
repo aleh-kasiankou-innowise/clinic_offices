@@ -1,4 +1,4 @@
-namespace Innowise.Clinic.Offices.Persistence.Models;
+namespace Innowise.Clinic.Offices.Persistence.Enums;
 
 /// <summary>
 /// Office status

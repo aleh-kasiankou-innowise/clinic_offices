@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     </ItemGroup>
@@ -19,7 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Innowise.Clinic.Offices.Configuration\Innowise.Clinic.Offices.Configuration.csproj" />
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Constants\Innowise.Clinic.Offices.Constants.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Shared\Innowise.Clinic.Offices.Shared.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
     </ItemGroup>
 

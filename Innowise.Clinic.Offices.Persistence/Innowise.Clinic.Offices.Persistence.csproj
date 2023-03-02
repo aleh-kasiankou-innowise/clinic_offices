@@ -12,9 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Configuration\Innowise.Clinic.Offices.Configuration.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Shared\Innowise.Clinic.Offices.Shared.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Dto\Innowise.Clinic.Offices.Dto.csproj" />
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence.Models\Innowise.Clinic.Offices.Persistence.Models.csproj" />
     </ItemGroup>
 
 </Project>

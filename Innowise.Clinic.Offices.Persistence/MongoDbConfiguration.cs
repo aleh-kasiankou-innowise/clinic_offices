@@ -1,4 +1,4 @@
-﻿namespace Innowise.Clinic.Offices.Configuration;
+﻿namespace Innowise.Clinic.Offices.Persistence;
 
 public class MongoDbConfiguration
 {

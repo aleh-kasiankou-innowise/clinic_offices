@@ -8,13 +8,14 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Innowise.Clinic.Offices.Dto\Innowise.Clinic.Offices.Dto.csproj" />
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence.Models\Innowise.Clinic.Offices.Persistence.Models.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Services\Innowise.Clinic.Offices.Services.csproj" />
     </ItemGroup>
 
 </Project>
