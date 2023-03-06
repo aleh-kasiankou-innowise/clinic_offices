@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using Innowise.Clinic.Offices.Api;
-using Innowise.Clinic.Offices.Configuration;
 using Innowise.Clinic.Offices.Persistence;
 using Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
 using Microsoft.AspNetCore.Hosting;

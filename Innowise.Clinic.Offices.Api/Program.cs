@@ -1,5 +1,4 @@
 using Innowise.Clinic.Offices.Configuration;
-using Innowise.Clinic.Offices.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

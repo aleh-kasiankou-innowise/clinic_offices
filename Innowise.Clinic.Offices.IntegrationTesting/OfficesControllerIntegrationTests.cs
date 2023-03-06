@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using Innowise.Clinic.Offices.Shared;
 using Innowise.Clinic.Offices.Dto;
 using Innowise.Clinic.Offices.Persistence.Enums;
 using Innowise.Clinic.Offices.Persistence.Models;

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using Innowise.Clinic.Offices.Persistence.Enums;
 
 namespace Innowise.Clinic.Offices.Dto;

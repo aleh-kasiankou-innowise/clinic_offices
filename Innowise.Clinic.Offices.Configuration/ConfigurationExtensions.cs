@@ -2,11 +2,9 @@ using System.Reflection;
 using System.Text;
 using Innowise.Clinic.Offices.Dto;
 using Innowise.Clinic.Offices.Persistence;
-using Innowise.Clinic.Offices.Persistence.Models;
-using Innowise.Clinic.Offices.Services;
 using Innowise.Clinic.Offices.Services.OfficeRepository.Implementations;
 using Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
-using Innowise.Clinic.Offices.Services.RabbitMqPublisher;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,8 +84,19 @@ public static class ConfigurationExtensions
     public static IServiceCollection ConfigureCrossServiceCommunication(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.Configure<RabbitOptions>(configuration.GetSection("RabbitConfigurations"));
-        services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
+        var rabbitMqConfig = configuration.GetSection("RabbitConfigurations");
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(rabbitMqConfig["HostName"], h =>
+                {
+                    h.Username(rabbitMqConfig["UserName"]);
+                    h.Password(rabbitMqConfig["Password"]);
+                });
+                cfg.ConfigureEndpoints(context);
+            });
+        });
         return services;
     }
 }
