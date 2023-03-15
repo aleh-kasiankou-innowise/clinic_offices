@@ -19,7 +19,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Configuration\Innowise.Clinic.Offices.Configuration.csproj" />
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Extensions\Innowise.Clinic.Offices.Extensions.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Shared\Innowise.Clinic.Offices.Shared.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
     </ItemGroup>

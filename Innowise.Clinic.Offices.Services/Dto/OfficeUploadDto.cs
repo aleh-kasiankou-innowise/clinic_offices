@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Innowise.Clinic.Offices.Persistence.Enums;
+using Innowise.Clinic.Offices.Persistence;
+using Innowise.Clinic.Offices.Shared.Enums;
+using Microsoft.AspNetCore.Http;
 
-namespace Innowise.Clinic.Offices.Dto;
+namespace Innowise.Clinic.Offices.Services.Dto;
 
 /// <summary>
 /// Represents an office.
 /// </summary>
-public class OfficeDto
+public class OfficeUploadDto
 {
     /// <summary>Phone number in a text format.</summary>
     /// <example>(555) 555-1234</example>
@@ -25,8 +27,8 @@ public class OfficeDto
     public OfficeAddress OfficeAddress { get; set; }
 
     /// <summary>
-    /// Office photo in a binary format.
+    /// Office photo.
     /// </summary>
     /// <example>000000010010010010000000011110000000</example>
-    public Byte[] Image { get; set; }
+    public IFormFile Image { get; set; }
 }

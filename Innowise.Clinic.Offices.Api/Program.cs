@@ -1,4 +1,5 @@
-using Innowise.Clinic.Offices.Configuration;
+using Innowise.Clinic.Offices.Api.Middleware;
+using Innowise.Clinic.Offices.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,11 @@ builder.Services.ConfigureSwagger();
 builder.Services.ConfigureSecurity();
 builder.Services.ConfigureRepositories(builder.Configuration);
 builder.Services.ConfigureCrossServiceCommunication(builder.Configuration);
+builder.Services.AddSingleton<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();

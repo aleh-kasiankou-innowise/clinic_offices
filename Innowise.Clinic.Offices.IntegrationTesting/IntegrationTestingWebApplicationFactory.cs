@@ -4,7 +4,7 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using Innowise.Clinic.Offices.Api;
 using Innowise.Clinic.Offices.Persistence;
-using Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
+using Innowise.Clinic.Offices.Services.OfficeService.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -28,12 +28,12 @@ public class IntegrationTestingWebApplicationFactory : WebApplicationFactory<Pro
     {
     }
 
-    public T UseDb<T>(Func<IOfficeRepository, T> func)
+    public T UseDb<T>(Func<IOfficeService, T> func)
     {
         using (var scope = Services.CreateScope())
         {
             var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<IOfficeRepository>();
+            var db = scopedServices.GetRequiredService<IOfficeService>();
             return func(db);
         }
     }

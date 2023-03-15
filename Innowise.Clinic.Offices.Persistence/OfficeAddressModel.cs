@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Innowise.Clinic.Offices.Dto;
+namespace Innowise.Clinic.Offices.Persistence;
 
 /// <summary>
 /// Represents an office address.

@@ -1,9 +1,11 @@
 using System.Reflection;
 using System.Text;
-using Innowise.Clinic.Offices.Dto;
 using Innowise.Clinic.Offices.Persistence;
-using Innowise.Clinic.Offices.Services.OfficeRepository.Implementations;
-using Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
+using Innowise.Clinic.Offices.Persistence.Repositories.Implementations;
+using Innowise.Clinic.Offices.Persistence.Repositories.Interfaces;
+using Innowise.Clinic.Offices.Services.Dto;
+using Innowise.Clinic.Offices.Services.OfficeService.Implementations;
+using Innowise.Clinic.Offices.Services.OfficeService.Interfaces;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace Innowise.Clinic.Offices.Configuration;
+namespace Innowise.Clinic.Offices.Extensions;
 
 public static class ConfigurationExtensions
 {
@@ -25,7 +27,7 @@ public static class ConfigurationExtensions
             opts.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
                 $"{Assembly.GetAssembly(typeof(OfficeAddress))?.GetName().Name}.xml"));
             opts.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
-                $"{Assembly.GetAssembly(typeof(OfficeDto))?.GetName().Name}.xml"));
+                $"{Assembly.GetAssembly(typeof(OfficeUploadDto))?.GetName().Name}.xml"));
 
             opts.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
             {
@@ -55,6 +57,7 @@ public static class ConfigurationExtensions
     {
         services.Configure<MongoDbConfiguration>(configuration.GetSection("MongoDb"));
         services.AddScoped<IOfficeRepository, OfficeRepository>();
+        services.AddScoped<IOfficeService, OfficeService>();
         return services;
     }
 

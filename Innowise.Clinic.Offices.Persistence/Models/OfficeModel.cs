@@ -1,5 +1,4 @@
-﻿using Innowise.Clinic.Offices.Dto;
-using Innowise.Clinic.Offices.Persistence.Enums;
+﻿using Innowise.Clinic.Offices.Shared.Enums;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Innowise.Clinic.Offices.Persistence.Models;
@@ -29,8 +28,8 @@ public class OfficeModel
     public OfficeAddress OfficeAddress { get; set; }
 
     /// <summary>
-    /// Office photo in a binary format.
+    /// Id of a photo saved in a blob storage.
     /// </summary>
     /// <example>000000010010010010000000011110000000</example>
-    public Byte[] Image { get; set; }
+    public string? ImageUrl { get; set; }
 }

@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Dto\Innowise.Clinic.Offices.Dto.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Services\Innowise.Clinic.Offices.Services.csproj" />
     </ItemGroup>

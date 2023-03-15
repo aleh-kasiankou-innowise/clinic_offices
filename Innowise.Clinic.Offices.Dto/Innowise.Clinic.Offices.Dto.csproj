@@ -13,7 +13,21 @@
 
 
     <ItemGroup>
+      <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Shared\Innowise.Clinic.Offices.Shared.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Http">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.http\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

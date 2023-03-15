@@ -1,6 +1,7 @@
-using Innowise.Clinic.Offices.Dto;
 using Innowise.Clinic.Offices.Persistence.Models;
-using Innowise.Clinic.Offices.Services.OfficeRepository.Interfaces;
+using Innowise.Clinic.Offices.Services.Dto;
+using Innowise.Clinic.Offices.Services.OfficeService.Interfaces;
+using Innowise.Clinic.Shared.ControllersAbstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,13 @@ namespace Innowise.Clinic.Offices.Api.Controllers;
 /// Office controller.
 /// It provides endpoints to create, get, update and delete clinic offices.
 /// </summary>
-[ApiController]
-[Route("[controller]")]
-[Produces("application/json")]
-public class OfficesController : ControllerBase
+public class OfficesController : ApiControllerBase
 {
-    private readonly IOfficeRepository _officesRepository;
+    private readonly IOfficeService _officesService;
 
-    public OfficesController(IOfficeRepository officeRepository, IOfficeRepository officesRepository)
+    public OfficesController(IOfficeService officeService, IOfficeService officesService)
     {
-        _officesRepository = officesRepository;
+        _officesService = officesService;
     }
 
     /// <summary>
@@ -31,7 +29,7 @@ public class OfficesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OfficeModel>))]
     public async Task<IActionResult> GetListOfOffices()
     {
-        return Ok(await _officesRepository.GetOfficesAsync());
+        return Ok(await _officesService.GetOfficesAsync());
     }
 
     /// <summary>Gets the individual office by its Id.</summary>
@@ -44,7 +42,7 @@ public class OfficesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
     public async Task<IActionResult> GetOffice([FromRoute] Guid id)
     {
-        var office = await _officesRepository.GetOfficeAsync(id);
+        var office = await _officesService.GetOfficeAsync(id);
 
         if (office != null)
         {
@@ -61,9 +59,9 @@ public class OfficesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
     [Authorize(Roles = "Receptionist")]
-    public async Task<IActionResult> CreateOffice([FromBody] OfficeDto office)
+    public async Task<IActionResult> CreateOffice([FromForm] OfficeUploadDto office)
     {
-        return Ok((await _officesRepository.CreateOfficeAsync(office)).ToString());
+        return Ok((await _officesService.CreateOfficeAsync(office)).ToString());
     }
 
     /// <summary>Updates the office data.</summary>
@@ -76,12 +74,12 @@ public class OfficesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(void))]
     [Authorize(Roles = "Receptionist")]
-    public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] OfficeDto officeUpdateData)
+    public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromForm] OfficeUpdateDto officeUpdateData)
     {
-        var office = await _officesRepository.GetOfficeAsync(id);
+        var office = await _officesService.GetOfficeAsync(id);
         if (office != null)
         {
-            await _officesRepository.UpdateOfficeAsync(office, officeUpdateData);
+            await _officesService.UpdateOfficeAsync(office, officeUpdateData);
             return Ok(office);
         }
 
@@ -99,10 +97,10 @@ public class OfficesController : ControllerBase
     [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> DeleteOffice([FromRoute] Guid id)
     {
-        var office = await _officesRepository.GetOfficeAsync(id);
+        var office = await _officesService.GetOfficeAsync(id);
         if (office != null)
         {
-            await _officesRepository.DeleteOfficeAsync(office);
+            await _officesService.DeleteOfficeAsync(office);
             return NoContent();
         }
 

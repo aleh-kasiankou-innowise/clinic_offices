@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
-using Innowise.Clinic.Offices.Dto;
-using Innowise.Clinic.Offices.Persistence.Enums;
+using Innowise.Clinic.Offices.Persistence;
 using Innowise.Clinic.Offices.Persistence.Models;
+using Innowise.Clinic.Offices.Services.Dto;
 using Innowise.Clinic.Offices.Shared.Constants;
+using Innowise.Clinic.Offices.Shared.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -34,7 +34,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
     {
         // Arrange
 
-        var office = new OfficeDto()
+        var office = new OfficeUploadDto()
         {
             OfficeStatus = OfficeStatus.Active,
             OfficeAddress = new OfficeAddress()
@@ -98,7 +98,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
     {
         // Arrange
 
-        var office = new OfficeDto()
+        var office = new OfficeUploadDto()
         {
             OfficeStatus = OfficeStatus.Active,
             OfficeAddress = new OfficeAddress()
@@ -109,7 +109,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
                 OfficeNumber = "OfficeNumber"
             },
             RegistryPhone = "2564892",
-            Image = Encoding.UTF8.GetBytes("this is an image converted to bytes")
+            Image = TestHelper.GenerateSampleFormFile()
         };
 
         // Act
@@ -131,7 +131,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
     {
         // Arrange
 
-        var office = new OfficeDto()
+        var office = new OfficeUploadDto()
         {
             OfficeStatus = OfficeStatus.Active,
             OfficeAddress = new OfficeAddress()
@@ -142,7 +142,7 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
                 OfficeNumber = "OfficeNumber"
             },
             RegistryPhone = "2564892",
-            Image = Encoding.UTF8.GetBytes("this is an image converted to bytes")
+            Image = TestHelper.GenerateSampleFormFile()
         };
 
         var createdOfficeId = await _factory.UseDb(x => x.CreateOfficeAsync(office));
@@ -160,14 +160,15 @@ public class OfficesControllerIntegrationTests : IClassFixture<IntegrationTestin
     }
 
 
-    private bool OfficeModelEqualsOfficeDto(OfficeModel officeModel, OfficeDto officeDtoToCompare, Guid createdObjId)
+    private bool OfficeModelEqualsOfficeDto(OfficeModel officeModel, OfficeUploadDto officeDtoToCompare, Guid createdObjId)
     {
+        // Photo is not compared because it needs documents api to be deployed
+        
         return officeModel.Id == createdObjId && officeModel.OfficeStatus == officeDtoToCompare.OfficeStatus &&
                officeModel.OfficeAddress.OfficeNumber == officeDtoToCompare.OfficeAddress.OfficeNumber &&
                officeModel.OfficeAddress.BuildingNumber == officeDtoToCompare.OfficeAddress.BuildingNumber &&
                officeModel.OfficeAddress.City == officeDtoToCompare.OfficeAddress.City &&
                officeModel.OfficeAddress.Street == officeDtoToCompare.OfficeAddress.Street &&
-               officeModel.RegistryPhone == officeDtoToCompare.RegistryPhone &&
-               officeModel.Image.SequenceEqual(officeDtoToCompare.Image);
+               officeModel.RegistryPhone == officeDtoToCompare.RegistryPhone;
     }
 }

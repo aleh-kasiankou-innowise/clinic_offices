@@ -7,12 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innowise.Clinic.Offices.Dto\Innowise.Clinic.Offices.Dto.csproj" />
       <ProjectReference Include="..\Innowise.Clinic.Offices.Persistence\Innowise.Clinic.Offices.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Innowise.Clinic.Shared" Version="0.0.6" />
+      <PackageReference Include="Innowise.Clinic.Shared" Version="0.0.15" />
       <PackageReference Include="MassTransit" Version="8.0.13" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.13" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
@@ -25,5 +24,13 @@
         <HintPath>..\..\..\..\..\.nuget\packages\mongodb.driver\2.19.0\lib\netstandard2.1\MongoDB.Driver.dll</HintPath>
       </Reference>
     </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
 
 </Project>
