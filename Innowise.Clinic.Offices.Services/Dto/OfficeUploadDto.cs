@@ -30,5 +30,5 @@ public class OfficeUploadDto
     /// Office photo.
     /// </summary>
     /// <example>000000010010010010000000011110000000</example>
-    public IFormFile Image { get; set; }
+    public IFormFile? Image { get; set; }
 }

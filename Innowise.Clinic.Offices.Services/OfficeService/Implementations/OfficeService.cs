@@ -18,20 +18,20 @@ public class OfficeService : IOfficeService
 {
     private readonly IOfficeRepository _officeRepository;
     private readonly IBus _bus;
-    private readonly IRequestClient<BlobUploadRequest> _blobUploadClient;
-    private readonly IRequestClient<BlobUpdateRequest> _blobUpdateClient;
+    private readonly IRequestClient<BlobSaveRequest> _blobSaveClient;
+
     private readonly IRequestClient<BlobDeletionRequest> _blobDeletionClient;
 
 
     public OfficeService(IBus bus,
-        IRequestClient<BlobUploadRequest> blobUploadClient, IOfficeRepository officeRepository,
-        IRequestClient<BlobUpdateRequest> blobUpdateClient, IRequestClient<BlobDeletionRequest> blobDeletionClient)
+        IOfficeRepository officeRepository,
+        IRequestClient<BlobDeletionRequest> blobDeletionClient,
+        IRequestClient<BlobSaveRequest> blobSaveClient)
     {
         _bus = bus;
-        _blobUploadClient = blobUploadClient;
         _officeRepository = officeRepository;
-        _blobUpdateClient = blobUpdateClient;
         _blobDeletionClient = blobDeletionClient;
+        _blobSaveClient = blobSaveClient;
     }
 
 
@@ -47,8 +47,7 @@ public class OfficeService : IOfficeService
 
     public async Task<Guid> CreateOfficeAsync(OfficeUploadDto officeDto)
     {
-        var imageGenerationResult = await HandleImageAsync(officeDto.Image, null, false);
-        var newOffice = officeDto.ToModel(imageGenerationResult.ImageUrl);
+        var newOffice = officeDto.ToModel(null);
         await _officeRepository.CreateOfficeAsync(newOffice);
 
         await _bus.Publish(
@@ -56,9 +55,17 @@ public class OfficeService : IOfficeService
                 new OfficeAddressDto(newOffice.Id, newOffice.OfficeAddress.ToString()))
         );
 
+        var imageGenerationResult = await HandleImageAsync(newOffice.Id, officeDto.Image, null, false);
+
         if (imageGenerationResult.Exception is not null)
         {
             throw imageGenerationResult.Exception;
+        }
+
+        if (imageGenerationResult.ImageUrl is not null)
+        {
+            newOffice.ImageUrl = imageGenerationResult.ImageUrl;
+            await _officeRepository.UpdateOfficeAsync(newOffice);
         }
 
         return newOffice.Id;
@@ -66,7 +73,8 @@ public class OfficeService : IOfficeService
 
     public async Task UpdateOfficeAsync(OfficeModel currentOfficeModel, OfficeUpdateDto officeUpdateDto)
     {
-        var imageUpdateResult = await HandleImageAsync(officeUpdateDto.NewImage, officeUpdateDto.ImageUrl,
+        var imageUpdateResult = await HandleImageAsync(currentOfficeModel.Id, officeUpdateDto.NewImage,
+            currentOfficeModel.ImageUrl,
             officeUpdateDto.IsDeleteImage);
         var updatedOffice = officeUpdateDto.ToModel(currentOfficeModel.Id, imageUpdateResult.ImageUrl);
         await _officeRepository.UpdateOfficeAsync(updatedOffice);
@@ -79,13 +87,12 @@ public class OfficeService : IOfficeService
         if (imageUpdateResult.Exception is not null)
         {
             throw imageUpdateResult.Exception;
-
         }
     }
 
     public async Task DeleteOfficeAsync(OfficeModel officeToDelete)
     {
-        var imageDeletionResult = await HandleImageAsync(null, officeToDelete.ImageUrl, true);
+        var imageDeletionResult = await HandleImageAsync(officeToDelete.Id, null, officeToDelete.ImageUrl, true);
         await _officeRepository.DeleteOfficeAsync(officeToDelete);
 
         await _bus.Publish(
@@ -96,11 +103,11 @@ public class OfficeService : IOfficeService
         if (imageDeletionResult.Exception is not null)
         {
             throw imageDeletionResult.Exception;
-
         }
     }
 
-    private async Task<(string? ImageUrl, BlobServiceException? Exception)> HandleImageAsync(IFormFile? newImage,
+    private async Task<(string? ImageUrl, BlobServiceException? Exception)> HandleImageAsync(Guid fileId,
+        IFormFile? newImage,
         string? currentImageUrl, bool isDeleteImage)
     {
         try
@@ -109,12 +116,12 @@ public class OfficeService : IOfficeService
             {
                 if (currentImageUrl is null && newImage is not null)
                 {
-                    return (await SaveImageAsync(newImage), null);
+                    return (await SaveImageAsync(fileId, newImage), null);
                 }
 
                 if (currentImageUrl is not null && newImage is not null)
                 {
-                    return (await UpdateImageAsync(newImage, currentImageUrl), null);
+                    return (await UpdateImageAsync(fileId, newImage), null);
                 }
 
                 return (currentImageUrl, null);
@@ -127,7 +134,7 @@ public class OfficeService : IOfficeService
         catch (BlobServiceException e)
         {
             return (currentImageUrl, e);
-        }   
+        }
     }
 
     private async Task<string?> DeleteImageAsync(string currentImageUrl)
@@ -144,32 +151,33 @@ public class OfficeService : IOfficeService
             true);
     }
 
-    private async Task<string> SaveImageAsync(IFormFile newImage)
+    private async Task<string> SaveImageAsync(Guid fileId, IFormFile newImage)
     {
         var fileContent = await ConvertFileToBytes(newImage);
-        var imageCreationResponse = await _blobUploadClient
-            .GetResponse<BlobUploadResponse>(new(fileContent, newImage.ContentType, BlobCategories.OfficePhoto));
+        var imageCreationResponse = await _blobSaveClient
+            .GetResponse<BlobSaveResponse>(new(fileId, BlobCategories.OfficePhoto, fileContent,
+                newImage.ContentType));
 
 
         if (imageCreationResponse.Message is { IsSuccessful: true, FileUrl: { } })
         {
             return imageCreationResponse.Message.FileUrl;
         }
-        
+
         throw new BlobServiceException(
             "The office image cannot be saved. Please try adding image later or contact our support team.");
     }
 
-    private async Task<string> UpdateImageAsync(IFormFile newImage, string currentImageUrl)
+    private async Task<string> UpdateImageAsync(Guid fileId, IFormFile newImage)
     {
         var fileContent = await ConvertFileToBytes(newImage);
         var imageUpdateResponse =
-            await _blobUpdateClient.GetResponse<BlobUpdateResponse>(new(fileContent, newImage.ContentType,
-                currentImageUrl));
+            await _blobSaveClient.GetResponse<BlobSaveResponse>(new(fileId, BlobCategories.OfficePhoto, fileContent,
+                newImage.ContentType));
 
         if (imageUpdateResponse.Message.IsSuccessful)
         {
-            return currentImageUrl;
+            return imageUpdateResponse.Message.FileUrl;
         }
 
         throw new BlobServiceException(

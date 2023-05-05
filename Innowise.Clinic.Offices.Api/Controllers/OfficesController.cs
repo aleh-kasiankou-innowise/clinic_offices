@@ -1,7 +1,7 @@
 using Innowise.Clinic.Offices.Persistence.Models;
 using Innowise.Clinic.Offices.Services.Dto;
 using Innowise.Clinic.Offices.Services.OfficeService.Interfaces;
-using Innowise.Clinic.Shared.ControllersAbstractions;
+using Innowise.Clinic.Shared.BaseClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

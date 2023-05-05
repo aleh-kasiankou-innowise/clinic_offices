@@ -25,12 +25,6 @@ public class OfficeUpdateDto
     /// </summary>
     [Required]
     public OfficeAddress OfficeAddress { get; set; }
-
-    /// <summary>
-    /// Saved office photo link (should be blocked on frontend).
-    /// </summary>
-    /// <example>https://example/office/ef63623a-55bb-4f0a-ba6d-0e986def90a0</example>
-    public string? ImageUrl { get; set; }
     
     /// <summary>
     /// New office image.

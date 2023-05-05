@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Innowise.Clinic.Offices.Services.Exceptions;
+using Serilog;
 
 namespace Innowise.Clinic.Offices.Api.Middleware;
 
@@ -34,13 +35,14 @@ public class ExceptionHandlingMiddleware : IMiddleware
         catch (ApplicationException e)
         {
             context.Response.StatusCode = 400;
+            Log.Warning(e, "Application exception");
             await WriteExceptionMessageToResponse(e.Message, context);
         }
 
         catch (Exception e)
         {
             context.Response.StatusCode = 500;
-            Console.WriteLine(e);
+            Log.Error(e, "Unhandled exception");
             await WriteExceptionMessageToResponse(DefaultUnhandledErrorMessage, context);
         }
     }
